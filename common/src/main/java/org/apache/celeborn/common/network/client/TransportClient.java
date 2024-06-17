@@ -210,7 +210,7 @@ public class TransportClient implements Closeable {
       PushData pushData, long pushDataTimeout, RpcResponseCallback callback) {
     return pushData(pushData, pushDataTimeout, callback, null);
   }
-
+  //todo 真正写数据的地方
   public ChannelFuture pushData(
       PushData pushData,
       long pushDataTimeout,
@@ -224,6 +224,7 @@ public class TransportClient implements Closeable {
             logger.error("Error release buffer for PUSH_DATA request {}", pushData.requestId, e);
           }
         };
+    //todo
     return pushData(pushData, pushDataTimeout, callback, rpcSendoutCallback, rpcFailureCallback);
   }
 

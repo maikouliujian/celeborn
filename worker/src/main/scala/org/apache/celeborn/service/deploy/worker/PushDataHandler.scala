@@ -124,9 +124,11 @@ class PushDataHandler(val workerSource: WorkerSource) extends BaseMessageHandler
             val partitionType =
               shufflePartitionType.getOrDefault(pushData.shuffleKey, PartitionType.REDUCE)
             partitionType match {
+              //todo reduce
               case PartitionType.REDUCE => handlePushData(
                   pushData,
                   callback)
+              //todo map
               case PartitionType.MAP => handleMapPartitionPushData(
                   pushData,
                   callback)
@@ -777,6 +779,7 @@ class PushDataHandler(val workerSource: WorkerSource) extends BaseMessageHandler
     }
 
     // find FileWriter responsible for the data
+    //todo 写分区数据的location
     val location =
       if (isPrimary) {
         partitionLocationInfo.getPrimaryLocation(shuffleKey, pushData.partitionUniqueId)
@@ -800,7 +803,7 @@ class PushDataHandler(val workerSource: WorkerSource) extends BaseMessageHandler
         pushData.partitionUniqueId,
         location,
         callback)) return
-
+    //todo 写文件的writer！！！！！！
     val fileWriter =
       getFileWriterAndCheck(pushData.`type`(), location, isPrimary, callback) match {
         case (true, _) => return
@@ -819,6 +822,7 @@ class PushDataHandler(val workerSource: WorkerSource) extends BaseMessageHandler
       return
     }
     val writePromise = Promise[Unit]()
+    //todo 写数据
     writeLocalData(Seq(fileWriter), body, shuffleKey, isPrimary, None, writePromise)
     // for primary, send data to replica
     if (location.hasPeer && isPrimary) {
@@ -1256,6 +1260,7 @@ class PushDataHandler(val workerSource: WorkerSource) extends BaseMessageHandler
       writePromise: Promise[Unit]): Unit = {
     def writeData(fileWriter: PartitionDataWriter, body: ByteBuf, shuffleKey: String): Unit = {
       try {
+        //todo 写数据
         fileWriter.write(body)
       } catch {
         case e: Exception =>
@@ -1297,6 +1302,7 @@ class PushDataHandler(val workerSource: WorkerSource) extends BaseMessageHandler
                 batchOffsets(index + 1) - batchOffsets(index)
               }
             val batchBody = body.slice(offset, length)
+            //todo 写数据
             writeData(fileWriter, batchBody, shuffleKey)
           } else {
             fileWriter.decrementPendingWrites()

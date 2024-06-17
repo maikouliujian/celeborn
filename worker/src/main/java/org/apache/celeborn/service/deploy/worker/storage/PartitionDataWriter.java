@@ -261,7 +261,7 @@ public abstract class PartitionDataWriter implements DeviceObserver {
               || !MemoryManager.instance().memoryFileStorageAvailable());
     }
   }
-
+  //todo 写数据
   /** assume data size is less than chunk capacity */
   public void write(ByteBuf data) throws IOException {
     if (closed) {

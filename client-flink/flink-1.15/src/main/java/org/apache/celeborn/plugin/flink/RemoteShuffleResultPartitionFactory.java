@@ -43,7 +43,7 @@ public class RemoteShuffleResultPartitionFactory
 
     super(celebornConf, partitionManager, bufferPoolFactory, networkBufferSize);
   }
-
+  //todo 写数据 ===> ResultPartition
   @Override
   public ResultPartition createRemoteShuffleResultPartitionInternal(
       String taskNameWithSubtaskAndId,

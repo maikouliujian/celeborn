@@ -50,6 +50,7 @@ public class ChunkStreamManager {
   public static class StreamState {
     public final ChunkBuffers buffers;
     public final String shuffleKey;
+    //todo filename
     public final String fileName;
     public final TimeWindow fetchTimeMetric;
     // Used to keep track of the number of chunks being transferred and not finished yet.

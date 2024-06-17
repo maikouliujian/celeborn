@@ -64,6 +64,7 @@ public class RemoteShuffleOutputGate {
   protected BufferPool bufferPool;
   private CelebornConf celebornConf;
   private final int numMappers;
+  //todo 分区数据位置
   private PartitionLocation partitionLocation;
 
   private int currentRegionIndex = 0;
@@ -99,6 +100,7 @@ public class RemoteShuffleOutputGate {
     this.shuffleDesc = shuffleDesc;
     this.numSubs = numSubs;
     this.bufferPoolFactory = bufferPoolFactory;
+    //todo 写数据的逻辑
     this.bufferPacker = new BufferPacker(this::write);
     this.celebornConf = celebornConf;
     this.numMappers = numMappers;
@@ -137,6 +139,7 @@ public class RemoteShuffleOutputGate {
 
   /** Writes a {@link Buffer} to a subpartition. */
   public void write(Buffer buffer, int subIdx) throws InterruptedException {
+    //todo 写数据到subpartition
     bufferPacker.process(buffer, subIdx);
   }
 
@@ -207,8 +210,10 @@ public class RemoteShuffleOutputGate {
   }
 
   /** Writes a piece of data to a subpartition. */
+  //todo 写数据到subpartition
   public void write(ByteBuf byteBuf, int subIdx) {
     try {
+      //todo 采用push的方式写shuffle数据
       flinkShuffleClient.pushDataToLocation(
           shuffleId,
           mapId,

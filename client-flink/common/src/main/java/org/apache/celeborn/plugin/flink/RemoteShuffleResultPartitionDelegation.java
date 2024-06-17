@@ -107,6 +107,7 @@ public class RemoteShuffleResultPartitionDelegation {
     }
 
     DataBuffer dataBuffer = isBroadcast ? getBroadcastDataBuffer() : getUnicastDataBuffer();
+    //todo 写shuffle数据
     if (dataBuffer.append(record, targetSubpartition, dataType)) {
       return;
     }
@@ -126,7 +127,7 @@ public class RemoteShuffleResultPartitionDelegation {
     }
     emit(record, targetSubpartition, dataType, isBroadcast);
   }
-
+  //todo 写点对点数据
   @VisibleForTesting
   public DataBuffer getUnicastDataBuffer() throws IOException {
     flushBroadcastDataBuffer();
@@ -155,11 +156,11 @@ public class RemoteShuffleResultPartitionDelegation {
   public void flushBroadcastDataBuffer() throws IOException {
     flushDataBuffer(broadcastDataBuffer, true);
   }
-
+  //todo 数据刷盘！！！！！！
   public void flushUnicastDataBuffer() throws IOException {
     flushDataBuffer(unicastDataBuffer, false);
   }
-
+  //todo 数据刷盘
   @VisibleForTesting
   void flushDataBuffer(DataBuffer dataBuffer, boolean isBroadcast) throws IOException {
     if (dataBuffer == null || dataBuffer.isReleased()) {
@@ -183,7 +184,9 @@ public class RemoteShuffleResultPartitionDelegation {
 
           Buffer buffer = bufferWithSubpartition.getBuffer();
           int subpartitionIndex = bufferWithSubpartition.getSubpartitionIndex();
+          //todo update statistics
           statisticsConsumer.accept(bufferWithSubpartition, isBroadcast);
+          //todo 写数据
           writeCompressedBufferIfPossible(buffer, subpartitionIndex);
         }
         outputGate.regionFinish();
@@ -215,6 +218,7 @@ public class RemoteShuffleResultPartitionDelegation {
         compressedBuffer.recycleBuffer();
       }
     }
+    //todo 写数据到subpartition
     outputGate.write(buffer, targetSubpartition);
   }
 

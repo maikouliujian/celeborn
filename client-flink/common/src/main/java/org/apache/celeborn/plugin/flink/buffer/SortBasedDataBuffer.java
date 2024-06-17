@@ -63,6 +63,7 @@ public class SortBasedDataBuffer implements DataBuffer {
   private final BufferPool bufferPool;
 
   /** A segment list as a joint buffer which stores all records and index entries. */
+  //todo 存储index和数据的
   private final ArrayList<MemorySegment> buffers = new ArrayList<>();
 
   /** Addresses of the first record's index entry for each subpartition. */
@@ -81,8 +82,10 @@ public class SortBasedDataBuffer implements DataBuffer {
   /** Total number of bytes already appended to this data buffer. */
   private long numTotalBytes;
   /** Total number of records already appended to this data buffer. */
+  //todo 总量
   private long numTotalRecords;
   /** Total number of bytes already read from this data buffer. */
+  //todo 已被读取的
   private long numTotalBytesRead;
   /** Whether this data buffer is finished. One can only read a finished data buffer. */
   private boolean isFinished;
@@ -151,7 +154,9 @@ public class SortBasedDataBuffer implements DataBuffer {
     }
 
     // write the index entry and record or event data
+    //todo 写index文件
     writeIndex(targetSubpartition, totalBytes, dataType);
+    //todo 写数据文件
     writeRecord(source);
 
     ++numTotalRecords;
@@ -188,6 +193,7 @@ public class SortBasedDataBuffer implements DataBuffer {
     while (source.hasRemaining()) {
       MemorySegment segment = buffers.get(writeSegmentIndex);
       int toCopy = Math.min(bufferSize - writeSegmentOffset, source.remaining());
+      //todo 写数据
       segment.put(writeSegmentOffset, source, toCopy);
 
       // move the writer position forward to write the remaining bytes or next record
@@ -417,6 +423,7 @@ public class SortBasedDataBuffer implements DataBuffer {
     isReleased = true;
 
     for (MemorySegment segment : buffers) {
+      //todo 回收
       bufferPool.recycle(segment);
     }
     buffers.clear();

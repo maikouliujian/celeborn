@@ -48,7 +48,7 @@ import org.apache.celeborn.plugin.flink.utils.Utils;
  * appended to an empty {@link DataBuffer} will be spilled directly.
  */
 public class RemoteShuffleResultPartition extends ResultPartition {
-
+  //todo 代理===>核心类
   private final RemoteShuffleResultPartitionDelegation delegation;
 
   public RemoteShuffleResultPartition(
@@ -87,7 +87,7 @@ public class RemoteShuffleResultPartition extends ResultPartition {
     delegation.setup(
         bufferPool, bufferCompressor, this::canBeCompressed, this::checkInProduceState);
   }
-
+  //todo 写shuffle数据
   @Override
   public void emitRecord(ByteBuffer record, int targetSubpartition) throws IOException {
     delegation.emit(record, targetSubpartition, DataType.DATA_BUFFER, false);

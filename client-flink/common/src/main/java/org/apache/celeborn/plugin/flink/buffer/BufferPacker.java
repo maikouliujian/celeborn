@@ -94,7 +94,7 @@ public class BufferPacker {
         Buffer dumpedBuffer = cachedBuffer;
         cachedBuffer = buffer;
         logBufferPack(false, dumpedBuffer.getDataType(), dumpedBuffer.readableBytes());
-
+        //todo 写数据！！！！！！！
         handleRipeBuffer(dumpedBuffer, currentSubIdx);
       }
     }
@@ -120,6 +120,7 @@ public class BufferPacker {
 
   private void handleRipeBuffer(Buffer buffer, int subIdx) throws InterruptedException {
     buffer.setCompressed(false);
+    //todo 写数据
     ripeBufferHandler.accept(buffer.asByteBuf(), subIdx);
   }
 

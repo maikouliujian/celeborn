@@ -79,7 +79,7 @@ public final class MapPartitionDataWriter extends PartitionDataWriter {
       }
     }
   }
-
+   //todo 写数据！！！！！！
   @Override
   public void write(ByteBuf data) throws IOException {
     data.markReaderIndex();

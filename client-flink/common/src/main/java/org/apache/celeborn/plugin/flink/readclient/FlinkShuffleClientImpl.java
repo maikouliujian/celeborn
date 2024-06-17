@@ -221,6 +221,7 @@ public class FlinkShuffleClientImpl extends ShuffleClientImpl {
       Runnable closeCallBack)
       throws IOException {
     // mapKey
+    //todo mapkey
     final String mapKey = Utils.makeMapKey(shuffleId, mapId, attemptId);
 
     PushState pushState = getPushState(mapKey);
@@ -252,6 +253,7 @@ public class FlinkShuffleClientImpl extends ShuffleClientImpl {
 
     // build PushData request
     NettyManagedBuffer buffer = new NettyManagedBuffer(data);
+    //todo shuffle key
     final String shuffleKey = Utils.makeShuffleKey(appUniqueId, shuffleId);
     PushData pushData = new PushData(PRIMARY_MODE, shuffleKey, location.getUniqueId(), buffer);
 
@@ -286,6 +288,7 @@ public class FlinkShuffleClientImpl extends ShuffleClientImpl {
     // do push data
     try {
       TransportClient client = createClientWaitingInFlightRequest(location, mapKey, pushState);
+      //todo push 数据！！！！！！！！！！！！！！！！！
       client.pushData(pushData, pushDataTimeout, callback, closeCallBack);
     } catch (Exception e) {
       logger.error(
@@ -306,6 +309,7 @@ public class FlinkShuffleClientImpl extends ShuffleClientImpl {
   private TransportClient createClientWaitingInFlightRequest(
       PartitionLocation location, String mapKey, PushState pushState)
       throws IOException, InterruptedException {
+    //todo 创建client
     TransportClient client =
         dataClientFactory.createClient(
             location.getHost(), location.getPushPort(), location.getId());
